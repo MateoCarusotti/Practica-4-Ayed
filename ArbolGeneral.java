@@ -109,6 +109,9 @@ public class ArbolGeneral<T> {
 			ArbolGeneral<T> aux = new ArbolGeneral<T>(null);
 			ColaGeneric<ArbolGeneral<T>> cola = new ColaGeneric<ArbolGeneral<T>>();
 			ListaGenerica<ArbolGeneral<T>> hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
+			if(!this.tieneHijos()) {
+				cant++;
+			}
 			cola.encolar(this);
 			cola.encolar(null);
 			while((!cola.esVacia())) {
