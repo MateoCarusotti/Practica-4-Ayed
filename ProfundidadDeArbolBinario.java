@@ -27,7 +27,7 @@ public class ProfundidadDeArbolBinario {
 				nivel++;
 			}
 		}
-		if(nivel == p) {
+		if(nivel == p) { // NO HAY QUE GUARDAR ELEMS EN LA COLA Y DESPUES RECORRERLA
 			cant = 0;
 			while(!cola.esVacia()) {
 				arbol = cola.desencolar();
