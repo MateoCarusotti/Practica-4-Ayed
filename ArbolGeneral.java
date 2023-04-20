@@ -74,27 +74,30 @@ public class ArbolGeneral<T> {
 		}
 		
 		public Integer altura() {
-			int cant = 0;
+			int cant = -1;
 			ArbolGeneral<T> aux = new ArbolGeneral<T>(null);
 			ColaGeneric<ArbolGeneral<T>> cola = new ColaGeneric<ArbolGeneral<T>>();
 			ListaGenerica<ArbolGeneral<T>> hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
-			cola.encolar(this);
-			cola.encolar(null);
-			while((!cola.esVacia())) {
-				aux = cola.desencolar();
-				if(aux != null) {
-					if(aux.tieneHijos()) {
-						hijos = aux.getHijos();
-						hijos.comenzar();
-						while(!hijos.fin()) {
-							cola.encolar(hijos.proximo());
+			if(!this.esVacio){
+				cant = 0;
+				cola.encolar(this);
+				cola.encolar(null);
+				while((!cola.esVacia())) {
+					aux = cola.desencolar();
+					if(aux != null) {
+						if(aux.tieneHijos()) {
+							hijos = aux.getHijos();
+							hijos.comenzar();
+							while(!hijos.fin()) {
+								cola.encolar(hijos.proximo());
+							}
 						}
+					}else if(!cola.esVacia()) {
+						cant++;
+						cola.encolar(null);
 					}
-				}else if(!cola.esVacia()) {
-					cant++;
-					cola.encolar(null);
 				}
-			}
+			}	
 			return cant;
 		}
 
