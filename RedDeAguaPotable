@@ -1,0 +1,46 @@
+package tp04.ejercicio7;
+import tp02.ejercicio2.ListaEnlazadaGenerica;
+import tp02.ejercicio2.ListaGenerica;
+import tp02.ejercicio3.ColaGeneric;
+import tp04_ag.*;
+public class RedDeAguaPotable {
+	private ArbolGeneral<Double> red;
+	
+	public  double minimoCaudal(double caudal) {
+		double minimo = 9999;
+		red.setDato(caudal);
+		minimoRed(minimo);
+		return minimo;
+	}
+	
+	private void minimoRed (double minimo) {
+		if((red != null) && (red.getDato() != 0)){
+			ArbolGeneral<Double> aux = new ArbolGeneral<Double>(null);
+			ColaGeneric<ArbolGeneral<Double>> cola = new ColaGeneric<ArbolGeneral<Double>>();
+			ListaGenerica<ArbolGeneral<Double>> hijos = new ListaEnlazadaGenerica<ArbolGeneral<Double>>();
+			cola.encolar(red);
+			cola.encolar(null);
+			while(!cola.esVacia()) {
+				aux = cola.desencolar();
+				if(aux != null) {
+					double cantidad = aux.getDato();
+					if(cantidad < minimo) {
+						minimo = cantidad;
+					}
+					if(aux.tieneHijos()) {
+						hijos = aux.getHijos();
+						cantidad = cantidad % hijos.tamanio();
+						hijos.comenzar();
+						while(!hijos.fin()){
+							ArbolGeneral<Double> hijo = hijos.proximo();
+							hijo.setDato(cantidad);
+							cola.encolar(hijo);
+						}
+					}
+				}else if(!cola.esVacia()) {
+					cola.encolar(null);
+				}
+			}
+		}
+	}
+}
