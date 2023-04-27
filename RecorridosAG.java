@@ -47,24 +47,29 @@ public class RecorridosAG {
 		return l;
 	}
 	
-	private void postOrden (ArbolGeneral<Integer> a, ListaGenerica<Integer> l, Integer n) {
-		if(!a.esVacio()) {
-			if(a.tieneHijos()) {
-				ListaGenerica<ArbolGeneral<Integer>> hijos = a.getHijos();
-				hijos.comenzar();
-				while(!hijos.fin()) {
-					this.postOrden(hijos.proximo(),l,n);
-				}
-			}
-			if ((a.getDato() % 2 != 0) && (a.getDato()>n)) {
-				l.agregarFinal(a.getDato());
-			}
-		}
-	} //que hacer
 	
-	
+	public ListaGenerica < Integer > numerosImparesMayoresQuePostOrden(ArbolGeneral < Integer > a, Integer n) {
+        ListaGenerica < Integer > lista = new ListaEnlazadaGenerica < Integer > ();
+        numerosImparesMayoresQuePostOrden(a, n, lista);
+        return lista;
+    }
+
+    private void numerosImparesMayoresQuePostOrden(ArbolGeneral < Integer > a, Integer n, ListaGenerica < Integer > lista) {
+        if (a.tieneHijos()) {
+            ListaGenerica < ArbolGeneral < Integer >> lHijos = a.getHijos();
+            lHijos.comenzar();
+            while (!lHijos.fin()) {
+                numerosImparesMayoresQuePostOrden(lHijos.proximo(), n, lista);
+            }
+        }
+        int dato = a.getDato();
+        if (dato > n && dato % 2 != 0) {
+            lista.agregarFinal(dato);
+        }
+    }
 	
 	
 	
 	
 }
+
