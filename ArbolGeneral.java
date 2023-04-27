@@ -74,30 +74,27 @@ public class ArbolGeneral<T> {
 		}
 		
 		public Integer altura() {
-			int cant = -1;
+			int cant = 0;
 			ArbolGeneral<T> aux = new ArbolGeneral<T>(null);
 			ColaGeneric<ArbolGeneral<T>> cola = new ColaGeneric<ArbolGeneral<T>>();
 			ListaGenerica<ArbolGeneral<T>> hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
-			if(!this.esVacio){
-				cant = 0;
-				cola.encolar(this);
-				cola.encolar(null);
-				while((!cola.esVacia())) {
-					aux = cola.desencolar();
-					if(aux != null) {
-						if(aux.tieneHijos()) {
-							hijos = aux.getHijos();
-							hijos.comenzar();
-							while(!hijos.fin()) {
-								cola.encolar(hijos.proximo());
-							}
+			cola.encolar(this);
+			cola.encolar(null);
+			while((!cola.esVacia())) {
+				aux = cola.desencolar();
+				if(aux != null) {
+					if(aux.tieneHijos()) {
+						hijos = aux.getHijos();
+						hijos.comenzar();
+						while(!hijos.fin()) {
+							cola.encolar(hijos.proximo());
 						}
-					}else if(!cola.esVacia()) {
-						cant++;
-						cola.encolar(null);
 					}
+				}else if(!cola.esVacia()) {
+					cant++;
+					cola.encolar(null);
 				}
-			}	
+			}
 			return cant;
 		}
 
@@ -138,6 +135,24 @@ public class ArbolGeneral<T> {
 			}
 			return max;
 		}
-
+		
+		
+		public Boolean esAncestro(T a, T b) {
+			if(!this.esVacio()) {
+				if(this != a) {
+					if(this.tieneHijos()) {
+						ListaGenerica<ArbolGeneral<T>> hijos = new ListaEnlazadaGenerica<ArbolGeneral<T>>();
+						hijos = this.getHijos();
+						hijos.comenzar();
+						while(!hijos.fin()) {
+							hijos.proximo().esAncestro(a, b);
+						}
+					}	
+				}
+			}else {
+				return false;
+			}
+			
+		}
 		
 }
