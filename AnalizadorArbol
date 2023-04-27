@@ -1,0 +1,45 @@
+package tp04.ejercicio5;
+import tp04_ag.*;
+import tp02.ejercicio2.*;
+import tp02.ejercicio3.ColaGeneric;
+public class AnalizadorArbol {
+	
+	public int devolverMaximoPromedio (ArbolGeneral<AreaEmpresa>arbol) {
+		int maximo = -1;
+		this.maximoNivel(arbol, maximo);
+		return maximo;
+	}
+	
+	private void maximoNivel (ArbolGeneral<AreaEmpresa> arbol, int maximo) {
+		if(!arbol.esVacio()) {
+			ArbolGeneral<AreaEmpresa> aux = new ArbolGeneral<AreaEmpresa>(null);
+			ListaGenerica<ArbolGeneral<AreaEmpresa>> lista = new ListaEnlazadaGenerica<ArbolGeneral<AreaEmpresa>>();
+			ColaGeneric<ArbolGeneral<AreaEmpresa>> cola = new ColaGeneric<ArbolGeneral<AreaEmpresa>>();
+			cola.encolar(arbol);
+			cola.encolar(null);
+			int contador = 0;
+			int nodos= 0;
+			while(!cola.esVacia()) {
+				aux = cola.desencolar();
+				if(aux != null) {
+					nodos++;
+					contador = contador + aux.getDato().getTransmision();
+					if(aux.tieneHijos()) {
+						lista = aux.getHijos();
+						lista.comenzar();
+						while(!lista.fin()) {
+							cola.encolar(lista.proximo());
+						}
+					}
+				}else if(!cola.esVacia()) {
+					if(contador % nodos > maximo) {
+						maximo = contador % nodos;
+					}
+					contador = 0;
+					nodos = 0;
+					cola.encolar(null);
+				}
+			}
+		}
+	}
+}
