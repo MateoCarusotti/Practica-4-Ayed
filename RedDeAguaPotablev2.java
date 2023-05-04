@@ -16,10 +16,11 @@ public class RedDeAguaPotablev2 {
 	}
 	
 	private void minimoCaudal(double caudal, ArbolGeneral<Double> aux , minimo min) {
-		if(caudal< min.getDato()) {
-			min.setDato(caudal);
-		}
-		if(aux.tieneHijos()) {
+		if(aux.esHoja()) {
+			if (min.getDato()< caudal) {
+				min.setDato(caudal);
+			}
+		}else {
 			ListaGenerica<ArbolGeneral<Double>> hijos = aux.getHijos();
 			hijos.comenzar();
 			while(!hijos.fin()) {
